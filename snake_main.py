@@ -3,6 +3,8 @@ import game_utils
 from snake_game import SnakeGame
 from game_display import GameDisplay
 
+##########################################3
+
 def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
 
     # INIT OBJECTS
