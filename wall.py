@@ -20,3 +20,11 @@ class Wall:
         
     def is_wall(loc:tuple[int,int])->bool:
         pass
+    
+    def get_head()->tuple[int,int]:
+        """
+        return the head of the wall,(based on his direction)
+        """
+        #for example if the dir is left,up wil return n-1
+        #right,down, will return [0]
+        pass
