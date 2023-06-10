@@ -47,8 +47,6 @@ class GameDisplay:
         self._game_control_thread.daemon = True
         self._round_start_time = time.time()
 
-
-
     def _init_score_frame(self) -> None:
         """
         Internal: This method initializes the score frame
