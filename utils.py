@@ -1,9 +1,9 @@
 from snake_types import Loc
 
-LEFT = "left"
-RIGHT = "right"
-DOWN = "down"
-UP = "up"
+LEFT = "Left"
+RIGHT = "Right"
+DOWN = "Down"
+UP = "Up"
 
 
 def update_location(loc:Loc,direction:str)->Loc:
@@ -17,17 +17,17 @@ def update_location(loc:Loc,direction:str)->Loc:
     Returns:
         tuple: The updated (x, y) coordinates.
     """
-    x,y=loc
+    row,col=loc
     if direction == LEFT:
-        return x - 1, y
+        return row , col - 1
     elif direction == RIGHT:
-        return x + 1, y
+        return row , col + 1
     elif direction == UP:
-        return x, y + 1
+        return row + 1, col 
     elif direction == DOWN:
-        return x, y - 1
+        return row - 1, col 
     else:
-       return x,y
+       return row,col
         # raise ValueError("Invalid direction. Please provide one of 'left', 'right', 'up', or 'down'.")
 
 
