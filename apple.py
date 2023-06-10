@@ -34,10 +34,13 @@ class Apple:
         except Exception:
             return False
         
-    def add_apple(self,banned_locations):
-        apple=game_utils.get_random_apple_data()
-        if apple not in banned_locations:
-            self.apples.add(apple)
-       
+    def add_apple(self,banned_locations=[]):
+        while True:
+            apple=game_utils.get_random_apple_data()
+            if apple not in banned_locations:
+                self.apples.append(apple)
+                return 
+        
+    
     
     
