@@ -1,24 +1,19 @@
 import game_utils
+from snake_types import Loc
 
 class Apple:
     
-    def __init__(self,number_of_apples,banned_locations:list[tuple[int,int]]) -> None:
-        
-        self.apples:set[tuple[int,int]]=[]
-        self.__init_apples(number_of_apples,banned_locations)
+    def __init__(self,apple_locs:list[Loc]=[]) -> None:
+        self.apples:set[tuple[int,int]]=set(apple_locs)
     
-    def __init_apples(self,number_of_apples,banned_locations):   
-        for _ in number_of_apples:
-            self.add_apple(banned_locations)
-    
-    def get_apples_loc(self)->set[tuple[int,int]]:
+    def get_apples_loc(self)->set[Loc]:
         #return all the apple locations.
         return set(self.apples)
     
-    def is_apple(self,apple:tuple[int,int])->bool:
+    def is_apple(self,apple:Loc)->bool:
         return apple in self.apples
 
-    def remove_apple(self,loc:tuple[int,int])->bool:
+    def remove_apple(self,loc:Loc)->bool:
         """
         Removes an apple from a specified location.
 
@@ -34,10 +29,11 @@ class Apple:
         except Exception:
             return False
         
-    def add_apple(self,banned_locations):
-        apple=game_utils.get_random_apple_data()
-        if apple not in banned_locations:
-            self.apples.add(apple)
-       
+    def add_apple(self,apple:Loc)->bool:
+        if apple in self.apples:
+            return False
+        return self.apples.add(apple)
+
+    
     
     
