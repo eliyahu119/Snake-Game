@@ -1,5 +1,5 @@
 
-
+import utils 
 
 
 class Wall:
@@ -7,6 +7,9 @@ class Wall:
         #location is the middle, move
          pass
   
+    def change_dir(self):
+        pass
+    
     def move_wall(self,times:int=1)->None:
         """move the wall to the current direction"""
         for _ in range(times):
@@ -14,10 +17,12 @@ class Wall:
     
     def __move_wall_one(self)->None:
         """move the wall one square"""
+        pass
         
     def get_wall_locations(self)->list[tuple[int,int]]:
         """return the wall locations"""
-        
+        pass 
+    
     def is_wall(loc:tuple[int,int])->bool:
         pass
     
