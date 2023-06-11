@@ -35,7 +35,7 @@ class Snake:
         else:
             return False
 
-    def move_snake(self, time_to_move: int=1) -> None:
+    def move_snake(self, time_to_move: int = 1) -> None:
         """update the snake positions"""
         for _ in range(time_to_move):
             self.__move_snake_one()
