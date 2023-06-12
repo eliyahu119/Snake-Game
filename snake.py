@@ -3,7 +3,10 @@ import utils
 
 class Snake:
 
-    def __init__(self, started_pos: tuple[int, int], direction: str=utils.UP) -> None:
+    def __init__(self, started_pos: tuple[int, int], direction: str = utils.UP) -> None:
+        """
+        creates new snake by resetting
+        """
         self.reset_snake(started_pos,direction)
 
     def add_length(self):
@@ -16,7 +19,9 @@ class Snake:
         self.snake.insert(0, update)
 
     def cut_snake(self, pos: tuple[int, int]) -> None:
-        """cut the snake in a certain pos"""
+        """cut the snake in a certain pos, unless it's cut only the head"""
+        if pos == self.get_head():
+            pass
         tail_len = len(self.snake) - self.snake.index(pos)+1
         for i in range(tail_len):
             self.snake.pop()
