@@ -46,3 +46,11 @@ def opposite_direction(direction):
     else:
         return direction
     # raise ValueError("Invalid direction. Please provide one of the valid directions.")
+
+
+def check_if_common_list(list1,list2):
+    set_list1=set(list1)
+    for x in list2:
+        if x in set_list1:
+            return True
+    return False

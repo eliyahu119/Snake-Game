@@ -12,7 +12,9 @@ class SnakeGame:
         def __init__(self, args) -> None:
             self.args = args
             self.__key_clicked = None
-            self.round=0
+            self.round = 0
+            
+            
             self.__init_snake()
             self.__init_walls()
 
@@ -23,7 +25,10 @@ class SnakeGame:
             args=self.args
             started_pos=args.width //2,args.height //2 
             self.__snake = Snake(started_pos)
-    
+            for i in range(10):
+                self.__snake.add_length()
+            # self.__snake.add_length()
+            
             # self.apple = Apple
 
         #region walls
@@ -34,12 +39,13 @@ class SnakeGame:
         def __add_wall(self):
             wall_len=len(self.walls)
             if wall_len > self.args.walls:
-                return
+                return False
             wall=self.__get_valid_wall()
             if wall is None:
-                return 
+                return False
             self.walls.append(wall)
-
+            return True
+            
         def __get_valid_wall(self):
             # while True:
                 x,y,d=game_utils.get_random_wall_data()
@@ -80,9 +86,10 @@ class SnakeGame:
                 if in_bound:
                     new_arr.append(wall)
             self.walls=new_arr
-            
+        
+        def get_heads(self):
+            return list(map(lambda x:x.get_head(),self.walls))
         #endregion
-
 
         #region Public_functions
         def read_key(self, key_clicked: Optional[str]) -> None:
@@ -92,14 +99,13 @@ class SnakeGame:
             
             self.change_dir_objects()
             self.move_objects()
-            self.__move_walls()
             
         def change_dir_objects(self):
             self.__snake_change_dir()
             # self.__walls_change_dir()
 
         def move_objects(self):
-            # self.__move_walls()
+            self.__move_walls()
             self.__move_snake()
 
         def draw_board(self, gd: GameDisplay) -> None:
@@ -109,8 +115,9 @@ class SnakeGame:
             # gd.draw_cell(self.__x, self.__y, "blue")
 
         def end_round(self) -> None:
-            self.round+=1
+            self.cut_snake_wall()
             self.__remove_out_borders_walls()
+            self.round+=1
 
         def is_over(self) -> bool:
             in_bound=self.check_snake_head_in_bound()
@@ -130,12 +137,6 @@ class SnakeGame:
             
             return False
         
-        def check_snake_head_in_walls(self):
-            head = self.__snake.get_head()
-            for wall in self.walls:
-                if wall.is_wall(head):
-                    return True
-            return False
         
         def add_objects(self)->None:
             self.__add_wall()
@@ -187,20 +188,40 @@ class SnakeGame:
         #region snake
         def __move_snake(self):
             self.__snake.move_snake()
-
         
         def check_snake_head_in_bound(self):
             head=self.__snake.get_head()
             return self.__in_bound(head)
             
         def __draw_snake(self, gd: GameDisplay) -> None:
+            bla=True
             for loc in self.__snake.get_snake_positions():
                 if self.__in_bound(loc):
                     _x, _y = loc
-                    gd.draw_cell(_x,_y, utils.BLACK)
-                
+                    if bla:
+                        gd.draw_cell(_x,_y, utils.BLACK)
+                    else:
+                         gd.draw_cell(_x,_y, "Pink")
+                    bla=not bla
+                         
         def __snake_change_dir(self):
                 if self.__key_clicked is not None:
                     self.__snake.change_dir(self.__key_clicked)
         #endregion
-    
+
+        #region collision
+        def check_snake_head_in_walls(self):
+            head = self.__snake.get_head()
+            for wall in self.walls:
+                if wall.is_wall(head):
+                    return True
+            return False
+        
+        def cut_snake_wall(self): 
+            #will not cut if the head is colliding with the head
+            #or if the head is not present in the snake.
+            heads=self.get_heads()
+            for head in heads:
+                self.__snake.cut_snake(head)
+       
+        #endregion

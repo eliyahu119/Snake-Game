@@ -21,10 +21,14 @@ class Snake:
     def cut_snake(self, pos: tuple[int, int]) -> None:
         """cut the snake in a certain pos, unless it's cut only the head"""
         if pos == self.get_head():
-            pass
-        tail_len = len(self.snake) - self.snake.index(pos)+1
-        for i in range(tail_len):
-            self.snake.pop()
+            return
+        if pos not in self.snake:
+            return
+        index=self.snake.index(pos)
+        self.snake=self.snake[:index]
+        # tail_len = len(self.snake) - +1
+        # for i in range(tail_len):
+        #     self.snake.pop()
 
     def get_snake_positions(self) -> list[tuple[int, int]]:
         """return the entire list of tuples representing the snake current pos"""
