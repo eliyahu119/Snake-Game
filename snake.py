@@ -3,7 +3,7 @@ import utils
 
 class Snake:
 
-    def __init__(self, started_pos: tuple[int, int], direction: str) -> None:
+    def __init__(self, started_pos: tuple[int, int], direction: str=utils.UP) -> None:
         self.reset_snake(started_pos,direction)
 
     def add_length(self):
@@ -27,7 +27,7 @@ class Snake:
 
     def change_dir(self, direction: str) -> bool:
         """update direction if allowed, returns True if succeeded and False if not"""
-        if direction != utils.opposite_direction(direction):
+        if self.direction != utils.opposite_direction(direction):
             self.direction = direction
             return True
         else:
