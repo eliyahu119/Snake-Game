@@ -10,14 +10,15 @@ class SnakeGame:
 
     def __init__(self, args) -> None:
         self.args = args
-        started_pos=args.width //2,args.height //2 
         self.__key_clicked = None
+        self.init_snake(args)
+        self.wall: list[Wall] = []
+
+    def init_snake(self, args):
+        started_pos=args.width //2,args.height //2 
         self.__snake = Snake(started_pos)
-        self.__snake.add_length()
-        self.__snake.add_length()
-        
+  
         # self.apple = Apple
-        # self.wall: list[Wall] = []
 
     def read_key(self, key_clicked: Optional[str]) -> None:
         self.__key_clicked = key_clicked
@@ -25,7 +26,7 @@ class SnakeGame:
     def update_objects(self) -> None:
         self.change_dir_objects()
         self.move_objects()
-
+        
     def change_dir_objects(self):
         self.__snake_change_dir()
         # self.__walls_change_dir()
@@ -58,9 +59,7 @@ class SnakeGame:
         hit_himself=self.__snake.check_if_hit_itself()
         if hit_himself:
             return True
-         
-
-        
+                
     def check_head_in_bound(self):
         head=self.__snake.get_head()
         return self.in_bound(head)
@@ -74,12 +73,8 @@ class SnakeGame:
         return True
 
     def __draw_snake(self, gd: GameDisplay) -> None:
-        bla=True
         for loc in self.__snake.get_snake_positions():
             if self.in_bound(loc):
                 self._x, self._y = loc
-                if bla: #TODO DELETE BLA
-                    gd.draw_cell(self._x, self._y, utils.BLACK)
-                else:                          
-                    gd.draw_cell(self._x, self._y, utils.GREEN)
-                bla = not bla
+                gd.draw_cell(self._x, self._y, utils.BLACK)
+              
