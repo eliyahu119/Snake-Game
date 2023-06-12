@@ -11,6 +11,9 @@ class SnakeGame:
         
 
         def __init__(self, args) -> None:
+            """
+            general reset of the game
+            """
             self.args = args
             self.__key_clicked = None
             self.round = 0
@@ -29,12 +32,18 @@ class SnakeGame:
             self.score+=int(raw_score)
 
         def __init_apples(self):
+            """
+            initiate apples list
+            """
             self.apples=Apple()
             
         def __add_apples(self):
-            if len(self.apples.get_apples_loc())>=self.args.apples:
+            """
+            adds
+            """
+            if len(self.apples.get_apples_loc()) >= self.args.apples:
                 return False
-            apple=game_utils.get_random_apple_data()
+            apple = game_utils.get_random_apple_data()
             if not self.__check_if_empty(apple):
                 return False
             self.apples.add_apple(apple)
