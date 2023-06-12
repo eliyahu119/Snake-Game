@@ -3,10 +3,8 @@ import utils
 
 class Snake:
 
-    def __init__(self, started_pos: tuple[int, int], direction: str, length: int = 3) -> None:
-        x, y = started_pos
-        self.snake = [(x, y), (x, y-1), (x, y-2)]
-        self.direction = utils.UP
+    def __init__(self, started_pos: tuple[int, int], direction: str) -> None:
+        self.reset_snake(started_pos,direction)
 
     def add_length(self):
         """
@@ -69,10 +67,17 @@ class Snake:
         else:
             return False
 
-    def reset_snake(self, started_pos: tuple[int, int]):
+    def reset_snake(self, started_pos: tuple[int, int],direction=utils.UP):
         """
         reset the snake completely: location, length and direction
         """
-        x, y = started_pos
-        self.snake = [(x, y), (x, y - 1), (x, y - 2)]
-        self.direction = utils.UP
+        snake=[started_pos]
+        opp_dir=utils.opposite_direction(direction)
+        for _ in range(3):
+            snake.append(utils.update_location(snake[len(snake)-1],opp_dir))
+        self.snake =snake
+        self.direction = direction
+
+    # def _reset_pos(started_pos):
+        
+        
