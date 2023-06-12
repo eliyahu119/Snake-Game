@@ -39,7 +39,7 @@ class SnakeGame:
             
         def __add_apples(self):
             """
-            adds
+            adds another apple to their container. returns True if succeeded
             """
             if len(self.apples.get_apples_loc()) >= self.args.apples:
                 return False
@@ -50,10 +50,16 @@ class SnakeGame:
             return True
        
         def __check_in_apples(self,loc:set[tuple[int,int]]):
+            """
+            checks if a location is in the apple's locations list
+            """
             apples=self.apples.get_apples_loc()
             return utils.check_if_common_list(loc,apples)
             
         def __draw_apples(self, gd: GameDisplay) -> None:
+            """
+            draw apples on the board
+            """
             positions=self.apples.get_apples_loc() 
             for loc in positions:
                 if self.__in_bound(loc):
@@ -61,21 +67,21 @@ class SnakeGame:
                     gd.draw_cell(_x,_y, utils.GREEN)
                     
         def __init_snake(self):
-            if self.args.debug:
-                self.__snake=None
-                return 
-            
             args=self.args
             started_pos=args.width //2,args.height //2 
             self.__snake = Snake(started_pos,args.debug)
 
 
-        #region walls
         def __init_walls(self):
+            """
+            initiate wall's list
+            """
             self.walls:list[Wall]=[]
-            # self.__add_wall()
 
         def __add_wall(self):
+            """
+            add a wall to wall's list
+            """
             wall_len=len(self.walls)
             if wall_len > self.args.walls:
                 return False
@@ -86,18 +92,20 @@ class SnakeGame:
             return True
             
         def __get_valid_wall(self):
-            # while True:
-                x,y,d=game_utils.get_random_wall_data()
-                wall=Wall((x,y),d)
-                locs=wall.get_wall_locations()
-                is_empty=self.__check_if_empty_lst(locs)
-                if is_empty:
-                    return wall
-                else:
-                    return None
-                
+            # adddddddddd
+            x,y,d=game_utils.get_random_wall_data()
+            wall=Wall((x,y),d)
+            locs=wall.get_wall_locations()
+            is_empty=self.__check_if_empty_lst(locs)
+            if is_empty:
+                return wall
+            else:
+                return None
                 
         def __draw_walls(self,gd):
+            """
+            draw walls on the board
+            """
             flat_walls=self.__get_flat_walls()
             for loc in flat_walls:
                 if self.__in_bound(loc):
