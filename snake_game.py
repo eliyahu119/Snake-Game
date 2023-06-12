@@ -61,14 +61,14 @@ class SnakeGame:
                     gd.draw_cell(_x,_y, utils.GREEN)
                     
         def __init_snake(self):
+            if self.args.debug:
+                self.__snake=None
+                return 
+            
             args=self.args
             started_pos=args.width //2,args.height //2 
             self.__snake = Snake(started_pos,args.debug)
-            # for i in range(10):
-            #     self.__snake.add_length()
-            # self.__snake.add_length()
-            
-            # self.apple = Apple
+
 
         #region walls
         def __init_walls(self):
@@ -95,7 +95,7 @@ class SnakeGame:
                     return wall
                 else:
                     return None
-                # self.__snake.get_snake_positions()
+                
                 
         def __draw_walls(self,gd):
             flat_walls=self.__get_flat_walls()
@@ -164,7 +164,7 @@ class SnakeGame:
             in_bound=self.check_snake_head_in_bound()
             if not in_bound:
                 return True
-            hit_himself=self.__snake.check_if_hit_itself()
+            hit_himself=self.__snake_hit_himself()
             if hit_himself:
                 return True
             
@@ -172,10 +172,10 @@ class SnakeGame:
             if head_in_walls:
                 return True
            
-            l = len(self.__snake.get_snake_positions())
-            if l <= 1:
-                return True
-        
+            if_one=self.check_if_one()
+            if if_one:
+              return True 
+           
             if self.round == self.args.rounds:
                 return True
             
@@ -217,6 +217,8 @@ class SnakeGame:
 
 
         def __check_in_snake(self, locs_set):
+            if self.__snake is None:
+                    return False
             snake_pos=self.__snake.get_snake_positions()
             is_common=utils.check_if_common_list(snake_pos,locs_set)
             return is_common
@@ -238,6 +240,8 @@ class SnakeGame:
                 
         #region snake
         def __move_snake(self):
+            if self.__snake is None:
+                    return
             if self.grow > 0:
                 self.__snake.add_length()
                 self.grow-=1
@@ -245,10 +249,14 @@ class SnakeGame:
                 self.__snake.move_snake()
         
         def check_snake_head_in_bound(self):
+            if self.__snake is None:
+                    return True
             head=self.__snake.get_head()
             return self.__in_bound(head)
             
         def __draw_snake(self, gd: GameDisplay) -> None:
+            if self.__snake is None:
+                    return
             positions=self.__snake.get_snake_positions() 
             for loc in positions:
                 if self.__in_bound(loc):
@@ -257,12 +265,36 @@ class SnakeGame:
             
                          
         def __snake_change_dir(self):
-                if self.__key_clicked is not None:
-                    self.__snake.change_dir(self.__key_clicked)
+                if self.__key_clicked is  None:
+                    return 
+                if self.__snake is None:
+                    return
+                self.__snake.change_dir(self.__key_clicked)
+        
+        def __snake_hit_himself(self):
+            #checks if the snake hit himself
+            if self.__snake is None:
+                    return False
+            hit_himself=self.__snake.check_if_hit_itself()
+            if hit_himself:
+                return True
+            return False
+        
+        def check_if_one(self): 
+            if self.__snake is None:
+                return False
+            l = len(self.__snake.get_snake_positions())
+            if l <= 1:
+                return True
+            return False
+            
+        
         #endregion
 
         #region collision
         def check_snake_head_in_walls(self):
+            if self.__snake is None:
+                    return False
             head = self.__snake.get_head()
             for wall in self.walls:
                 if wall.is_wall(head):
@@ -272,11 +304,15 @@ class SnakeGame:
         def cut_snake_wall(self): 
             #will not cut if the head is colliding with the head
             #or if the head is not present in the snake.
+            if self.__snake is None:
+                    return
             heads=self.get_heads()
             for head in heads:
                 self.__snake.cut_snake(head)
                 
         def check_snake_head_in_walls(self):
+            if self.__snake is None:
+                    return False
             head = self.__snake.get_head()
             for wall in self.walls:
                 if wall.is_wall(head):
@@ -291,12 +327,15 @@ class SnakeGame:
            
         
         def __eat_apple(self):
+            if self.__snake is None:
+                    return
             head = self.__snake.get_head()
             is_eaten=self.apples.remove_apple(head)
             if not is_eaten:
                 return 
             self.__add_score()
             self.grow+=3
-            # self.score+=3
-            # self.groth+=3
+            
         #endregion
+
+        
