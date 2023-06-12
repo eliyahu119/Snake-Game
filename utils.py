@@ -6,7 +6,7 @@ DOWN = "Down"
 UP = "Up"
 
 
-def update_location(loc:Loc,direction:str)->Loc:
+def update_location(loc: Loc, direction: str) -> Loc:
     """
     Update the current location based on the specified direction.
 
@@ -17,20 +17,18 @@ def update_location(loc:Loc,direction:str)->Loc:
     Returns:
         tuple: The updated (x, y) coordinates.
     """
-    row,col=loc
+    row, col = loc
     if direction == LEFT:
-        return row , col - 1
+        return row-1, col
     elif direction == RIGHT:
-        return row , col + 1
+        return row+1, col
     elif direction == UP:
-        return row + 1, col 
+        return row, col+1
     elif direction == DOWN:
-        return row - 1, col 
+        return row, col-1
     else:
-       return row,col
+        return row, col
         # raise ValueError("Invalid direction. Please provide one of 'left', 'right', 'up', or 'down'.")
-
-
 
 
 def opposite_direction(direction):
@@ -45,6 +43,3 @@ def opposite_direction(direction):
     else:
         return direction
     # raise ValueError("Invalid direction. Please provide one of the valid directions.")
-
-    
-    
