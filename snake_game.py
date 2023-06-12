@@ -66,11 +66,8 @@ class SnakeGame:
                     _x, _y = loc
                     gd.draw_cell(_x,_y, utils.GREEN)
                     
-        def __init_snake(self):
-            args=self.args
-            started_pos=args.width //2,args.height //2 
-            self.__snake = Snake(started_pos,args.debug)
-
+       
+        #region walls
 
         def __init_walls(self):
             """
@@ -296,7 +293,10 @@ class SnakeGame:
                 return True
             return False
             
-        
+        def __init_snake(self):
+            args=self.args
+            started_pos=args.width //2,args.height //2 
+            self.__snake = Snake(started_pos,args.debug)    
         #endregion
 
         #region collision
