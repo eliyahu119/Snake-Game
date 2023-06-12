@@ -5,6 +5,9 @@ RIGHT = "Right"
 DOWN = "Down"
 UP = "Up"
 
+BLUE = "blue"
+BLACK = "black"
+GREEN = "green"
 
 def update_location(loc: Loc, direction: str) -> Loc:
     """
