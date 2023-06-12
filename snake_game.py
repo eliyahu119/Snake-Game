@@ -25,9 +25,6 @@ class SnakeGame:
             self.__init_walls()
             self.__init_apples()
         
-        # @property
-        # def score(self):
-        #     # return int(self.__snake)
 
 
         def __init_apples(self):
