@@ -119,6 +119,23 @@ class SnakeGame:
             hit_himself=self.__snake.check_if_hit_itself()
             if hit_himself:
                 return True
+            
+            head_in_walls = self.check_snake_head_in_walls()
+            if head_in_walls:
+                return True
+           
+            l = len(self.__snake.get_snake_positions())
+            if l <= 1:
+                return True
+            
+            return False
+        
+        def check_snake_head_in_walls(self):
+            head = self.__snake.get_head()
+            for wall in self.walls:
+                if wall.is_wall(head):
+                    return True
+            return False
         
         def add_objects(self)->None:
             self.__add_wall()
