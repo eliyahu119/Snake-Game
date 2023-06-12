@@ -3,7 +3,10 @@ import utils
 
 class Snake:
 
-    def __init__(self, started_pos: tuple[int, int], direction: str=utils.UP) -> None:
+    def __init__(self, started_pos: tuple[int, int], direction: str = utils.UP) -> None:
+        """
+        creates new snake by resetting
+        """
         self.reset_snake(started_pos,direction)
 
     def add_length(self):

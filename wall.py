@@ -4,7 +4,10 @@ from snake_types import Loc
 
 
 class Wall:
-    def __init__(self,location:Loc,direction:str,length:int=3,)-> None:
+    def __init__(self, location:Loc,direction:str,length:int=3)-> None:
+        """
+        creates new wall
+        """
         #location is the middle, move
         self.middle:Loc=location
         self.dir:str=direction
@@ -14,6 +17,9 @@ class Wall:
     
   
     def change_dir(self):
+        """
+        changes the direction of the wall
+        """
         self.dir=utils.opposite_direction(self.dir)
     
     def move_wall(self,times:int=1)->None:
@@ -36,13 +42,13 @@ class Wall:
 
     def __from_middle(self,locations:list):
         half_length = self.length // 2
-        even= self.length%2
+        even = self.length%2
         from_middle=half_length-1+even
         
-        loc=self.middle
+        loc = self.middle
         for _ in range(from_middle):   
-            loc=utils.update_location(loc,self.dir)
-            locations.insert(0,loc)
+            loc = utils.update_location(loc, self.dir)
+            locations.insert(0, loc)
             
     def __before_middle(self,locations:list):
             half_length = self.length // 2          
