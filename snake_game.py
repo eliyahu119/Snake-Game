@@ -63,7 +63,7 @@ class SnakeGame:
         def __init_snake(self):
             args=self.args
             started_pos=args.width //2,args.height //2 
-            self.__snake = Snake(started_pos)
+            self.__snake = Snake(started_pos,args.debug)
             # for i in range(10):
             #     self.__snake.add_length()
             # self.__snake.add_length()
