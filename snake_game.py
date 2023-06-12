@@ -22,10 +22,11 @@ class SnakeGame:
             self.__init_walls()
             self.__init_apples()
         
-        # @property
-        # def score(self):
-        #     # return int(self.__snake)
-
+       
+        def __add_score(self):
+            length=len(self.__snake.get_snake_positions())
+            raw_score=length**0.5
+            self.score+=int(raw_score)
 
         def __init_apples(self):
             self.apples=Apple()
@@ -239,18 +240,11 @@ class SnakeGame:
             return self.__in_bound(head)
             
         def __draw_snake(self, gd: GameDisplay) -> None:
-            bla=True
             positions=self.__snake.get_snake_positions() 
-            count=0  
             for loc in positions:
                 if self.__in_bound(loc):
                     _x, _y = loc
                     gd.draw_cell(_x,_y, utils.BLACK)
-                    if bla:
-                        count+=1
-                    else:
-                         gd.draw_cell(_x,_y, "Pink")
-                    bla=not bla
             
                          
         def __snake_change_dir(self):
@@ -292,7 +286,7 @@ class SnakeGame:
             is_eaten=self.apples.remove_apple(head)
             if not is_eaten:
                 return 
-            self.apples_eaten+=1
+            self.__add_score()
             self.grow+=3
             # self.score+=3
             # self.groth+=3
