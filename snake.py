@@ -73,7 +73,7 @@ class Snake:
         """
         snake=[started_pos]
         opp_dir=utils.opposite_direction(direction)
-        for _ in range(3):
+        for _ in range(2):
             snake.append(utils.update_location(snake[len(snake)-1],opp_dir))
         self.snake =snake
         self.direction = direction

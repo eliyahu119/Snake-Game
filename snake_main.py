@@ -8,7 +8,7 @@ from game_display import GameDisplay
 def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
 
     # INIT OBJECTS
-    game = SnakeGame()
+    game = SnakeGame(args)
     gd.show_score(0)
     # DRAW BOARD
     game.draw_board(gd)
@@ -17,6 +17,7 @@ def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
         # CHECK KEY CLICKS
         key_clicked = gd.get_key_clicked()
         game.read_key(key_clicked)
+        
         # UPDATE OBJECTS
         game.update_objects()
         # DRAW BOARD
