@@ -19,7 +19,9 @@ class Snake:
         self.snake.insert(0, update)
 
     def cut_snake(self, pos: tuple[int, int]) -> None:
-        """cut the snake in a certain pos"""
+        """cut the snake in a certain pos, unless it's cut only the head"""
+        if pos == self.get_head():
+            pass
         tail_len = len(self.snake) - self.snake.index(pos)+1
         for i in range(tail_len):
             self.snake.pop()
