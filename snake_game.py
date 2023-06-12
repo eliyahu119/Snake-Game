@@ -13,20 +13,44 @@ class SnakeGame:
             self.args = args
             self.__key_clicked = None
             self.round = 0
-            
+            self.score = 0
+            self.grow = 0
+            self.apples_eaten=0            
             
             self.__init_snake()
             self.__init_walls()
+            self.__init_apples()
 
-    
+
+        def __init_apples(self):
+            self.apples=Apple()
             
-        
+        def __add_apples(self):
+            if len(self.apples.get_apples_loc())>=self.args.apples:
+                return False
+            apple=game_utils.get_random_apple_data()
+            if not self.__check_if_empty(apple):
+                return False
+            self.apples.add_apple(apple)
+            return True
+       
+        def __check_in_apples(self,loc:set[tuple[int,int]]):
+            apples=self.apples.get_apples_loc()
+            return utils.check_if_common_list(loc,apples)
+            
+        def __draw_apples(self, gd: GameDisplay) -> None:
+            positions=self.apples.get_apples_loc() 
+            for loc in positions:
+                if self.__in_bound(loc):
+                    _x, _y = loc
+                    gd.draw_cell(_x,_y, utils.GREEN)
+                    
         def __init_snake(self):
             args=self.args
             started_pos=args.width //2,args.height //2 
             self.__snake = Snake(started_pos)
-            for i in range(10):
-                self.__snake.add_length()
+            # for i in range(10):
+            #     self.__snake.add_length()
             # self.__snake.add_length()
             
             # self.apple = Apple
@@ -51,7 +75,7 @@ class SnakeGame:
                 x,y,d=game_utils.get_random_wall_data()
                 wall=Wall((x,y),d)
                 locs=wall.get_wall_locations()
-                is_empty=self.__check_if_empty(locs)
+                is_empty=self.__check_if_empty_lst(locs)
                 if is_empty:
                     return wall
                 else:
@@ -111,12 +135,14 @@ class SnakeGame:
         def draw_board(self, gd: GameDisplay) -> None:
             self. __draw_snake(gd)
             self.__draw_walls(gd)
-            # self.draw_board(gd)
-            # gd.draw_cell(self.__x, self.__y, "blue")
+            self.__draw_apples(gd)
 
         def end_round(self) -> None:
             self.cut_snake_wall()
             self.__remove_out_borders_walls()
+            self.__destroy_apple_in_walls()
+            self.__eat_apple()
+            
             self.round+=1
 
         def is_over(self) -> bool:
@@ -140,6 +166,7 @@ class SnakeGame:
         
         def add_objects(self)->None:
             self.__add_wall()
+            self.__add_apples()
         #endregion
 
         #region help
@@ -151,7 +178,7 @@ class SnakeGame:
                 return False
             return True
         
-        def __check_if_empty(self,locs:list[tuple[int,int]]):
+        def __check_if_empty_lst(self,locs:list[tuple[int,int]]):
             locs_set=set(locs)
             in_snake=self.__check_in_snake(locs_set)
             
@@ -161,9 +188,15 @@ class SnakeGame:
             
             if in_walls:
                 return False
-            
-            #TODO: add check if in apples
+                        
+            in_apples=self.__check_in_apples(locs_set)
+            if in_apples:
+                return False
             return True
+        
+        def __check_if_empty(self,loc:tuple[int,int]):
+            return self.__check_if_empty_lst([loc])
+
 
         def __check_in_snake(self, locs_set):
             snake_pos=self.__snake.get_snake_positions()
@@ -187,7 +220,11 @@ class SnakeGame:
                 
         #region snake
         def __move_snake(self):
-            self.__snake.move_snake()
+            if self.grow > 0:
+                self.__snake.add_length()
+                self.grow-=1
+            else:
+                self.__snake.move_snake()
         
         def check_snake_head_in_bound(self):
             head=self.__snake.get_head()
@@ -195,14 +232,18 @@ class SnakeGame:
             
         def __draw_snake(self, gd: GameDisplay) -> None:
             bla=True
-            for loc in self.__snake.get_snake_positions():
+            positions=self.__snake.get_snake_positions() 
+            count=0  
+            for loc in positions:
                 if self.__in_bound(loc):
                     _x, _y = loc
+                    gd.draw_cell(_x,_y, utils.BLACK)
                     if bla:
-                        gd.draw_cell(_x,_y, utils.BLACK)
+                        count+=1
                     else:
                          gd.draw_cell(_x,_y, "Pink")
                     bla=not bla
+            
                          
         def __snake_change_dir(self):
                 if self.__key_clicked is not None:
@@ -223,5 +264,28 @@ class SnakeGame:
             heads=self.get_heads()
             for head in heads:
                 self.__snake.cut_snake(head)
-       
+                
+        def check_snake_head_in_walls(self):
+            head = self.__snake.get_head()
+            for wall in self.walls:
+                if wall.is_wall(head):
+                    return True
+            return False
+        
+        
+        def __destroy_apple_in_walls(self):
+            heads=self.get_heads()
+            for head in heads:
+                self.apples.remove_apple(head)
+           
+        
+        def __eat_apple(self):
+            head = self.__snake.get_head()
+            is_eaten=self.apples.remove_apple(head)
+            if not is_eaten:
+                return 
+            self.apples_eaten+=1
+            self.grow+=3
+            # self.score+=3
+            # self.groth+=3
         #endregion

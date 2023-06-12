@@ -26,10 +26,7 @@ class Snake:
             return
         index=self.snake.index(pos)
         self.snake=self.snake[:index]
-        # tail_len = len(self.snake) - +1
-        # for i in range(tail_len):
-        #     self.snake.pop()
-
+      
     def get_snake_positions(self) -> list[tuple[int, int]]:
         """return the entire list of tuples representing the snake current pos"""
         return list(self.snake)
@@ -82,8 +79,10 @@ class Snake:
         """
         snake=[started_pos]
         opp_dir=utils.opposite_direction(direction)
+        pos=started_pos
         for _ in range(2):
-            snake.append(utils.update_location(snake[len(snake)-1],opp_dir))
+            pos=utils.update_location(pos,opp_dir)    
+            snake.append(pos)
         self.snake =snake
         self.direction = direction
 
