@@ -26,11 +26,8 @@ class SnakeGame:
             self.__init_apples()
         
        
-        def __add_score(self):
-            length=len(self.__snake.get_snake_positions())
-            raw_score=length**0.5
-            self.score+=int(raw_score)
 
+        #region apples
         def __init_apples(self):
             """
             initiate apples list
@@ -67,6 +64,8 @@ class SnakeGame:
                     gd.draw_cell(_x,_y, utils.GREEN)
                     
        
+        #endregion
+        
         #region walls
 
         def __init_walls(self):
@@ -117,6 +116,17 @@ class SnakeGame:
             # return [loc for wall.get_wall_locations() in self.walls for loc in wall]
         
         def __move_walls(self)->None:
+            """
+            Moves the walls in the game.
+
+            This is a private method that moves the walls in the game based on the game logic,
+            every even round. not including the first one.
+
+            Returns:
+                None
+            """
+            
+            
             if self.round == 0 or self.round % 2 == 1:
                 return 
             for wall in self.walls:
@@ -149,6 +159,15 @@ class SnakeGame:
             # self.__walls_change_dir()
 
         def move_objects(self):
+            """
+            Moves the walls and the snake in the game.
+
+            This function is responsible for moving the walls and the snake in the game.
+            It calls private methods __move_walls() and __move_snake() to perform the actual movement.
+
+            Returns:
+                None
+            """
             self.__move_walls()
             self.__move_snake()
 
@@ -241,10 +260,19 @@ class SnakeGame:
                 if not self.__in_bound(loc):
                     return False
                 return True
+       
         #endregion
                 
         #region snake
         def __move_snake(self):
+            """
+                Moves the snake in the game.
+
+                This is a private method that moves the snake in the game based on the game logic.
+                in case the snake exists.
+                Returns:
+                    None
+            """
             if self.__snake is None:
                     return
             if self.grow > 0:
@@ -344,6 +372,12 @@ class SnakeGame:
             self.__add_score()
             self.grow+=3
             
+        def __add_score(self):
+            length=len(self.__snake.get_snake_positions())
+            raw_score=length**0.5
+            self.score+=int(raw_score)
+       
+       
         #endregion
 
         
