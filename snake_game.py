@@ -3,78 +3,187 @@ from game_display import GameDisplay
 from snake import Snake
 from wall import Wall
 from apple import Apple
+import game_utils
 import utils
 
 
 class SnakeGame:
 
-    def __init__(self, args) -> None:
-        self.args = args
-        self.__key_clicked = None
-        self.init_snake(args)
-        self.wall: list[Wall] = []
+        def __init__(self, args) -> None:
+            self.args = args
+            self.__key_clicked = None
+            self.round=0
+            self.__init_snake()
+            self.__init_walls()
 
-    def init_snake(self, args):
-        started_pos=args.width //2,args.height //2 
-        self.__snake = Snake(started_pos)
-  
-        # self.apple = Apple
-
-    def read_key(self, key_clicked: Optional[str]) -> None:
-        self.__key_clicked = key_clicked
-
-    def update_objects(self) -> None:
-        self.change_dir_objects()
-        self.move_objects()
+    
+            
         
-    def change_dir_objects(self):
-        self.__snake_change_dir()
-        # self.__walls_change_dir()
+        def __init_snake(self):
+            args=self.args
+            started_pos=args.width //2,args.height //2 
+            self.__snake = Snake(started_pos)
+    
+            # self.apple = Apple
 
-    def move_objects(self):
-        # self.__move_walls()
-        self.__move_snake()
+        #region walls
+        def __init_walls(self):
+            self.walls:list[Wall]=[]
+            # self.__add_wall()
 
-    def __snake_change_dir(self):
-        if self.__key_clicked is not None:
-            self.__snake.change_dir(self.__key_clicked)
+        def __add_wall(self):
+            wall_len=len(self.walls)
+            if wall_len > self.args.walls:
+                return
+            wall=self.__get_valid_wall()
+            if wall is None:
+                return 
+            self.walls.append(wall)
 
-    def __move_snake(self):
-        self.__snake.move_snake()
-
-    # def __move_walls():
-    #     pass
-
-    def draw_board(self, gd: GameDisplay) -> None:
-        self. __draw_snake(gd)
-        # gd.draw_cell(self.__x, self.__y, "blue")
-
-    def end_round(self) -> None:
-        pass
-
-    def is_over(self) -> bool:
-        in_bound=self.check_head_in_bound()
-        if not in_bound:
-            return True
-        hit_himself=self.__snake.check_if_hit_itself()
-        if hit_himself:
-            return True
+        def __get_valid_wall(self):
+            # while True:
+                x,y,d=game_utils.get_random_wall_data()
+                wall=Wall((x,y),d)
+                locs=wall.get_wall_locations()
+                is_empty=self.__check_if_empty(locs)
+                if is_empty:
+                    return wall
+                else:
+                    return None
+                # self.__snake.get_snake_positions()
                 
-    def check_head_in_bound(self):
-        head=self.__snake.get_head()
-        return self.in_bound(head)
+        def __draw_walls(self,gd):
+            flat_walls=self.__get_flat_walls()
+            for loc in flat_walls:
+                if self.__in_bound(loc):
+                    __x, __y = loc
+                    gd.draw_cell(__x, __y, utils.BLUE)        
         
-    def in_bound(self, loc: tuple[int, int]) -> bool:
-        x, y = loc
-        if not (0 <= x < self.args.width):
-            return False
-        if not (0 <= y < self.args.height):
-            return False
-        return True
+        def __get_flat_walls(self):
+            flat=[]
+            for wall in self.walls:
+                flat.extend(wall.get_wall_locations())
+            return flat
+            # return [loc for wall.get_wall_locations() in self.walls for loc in wall]
+        
+        def __move_walls(self)->None:
+            if self.round == 0 or self.round % 2 == 1:
+                return 
+            for wall in self.walls:
+                wall.move_wall()
+        
+        def __remove_out_borders_walls(self)->None:
+            new_arr=[]
+            for wall in self.walls:
+                pos=wall.get_wall_locations()
+                in_bound=self._array_in_bound(pos)
+                if in_bound:
+                    new_arr.append(wall)
+            self.walls=new_arr
+            
+        #endregion
 
-    def __draw_snake(self, gd: GameDisplay) -> None:
-        for loc in self.__snake.get_snake_positions():
-            if self.in_bound(loc):
-                self._x, self._y = loc
-                gd.draw_cell(self._x, self._y, utils.BLACK)
-              
+
+        #region Public_functions
+        def read_key(self, key_clicked: Optional[str]) -> None:
+            self.__key_clicked = key_clicked
+
+        def update_objects(self) -> None:
+            
+            self.change_dir_objects()
+            self.move_objects()
+            self.__move_walls()
+            
+        def change_dir_objects(self):
+            self.__snake_change_dir()
+            # self.__walls_change_dir()
+
+        def move_objects(self):
+            # self.__move_walls()
+            self.__move_snake()
+
+        def draw_board(self, gd: GameDisplay) -> None:
+            self. __draw_snake(gd)
+            self.__draw_walls(gd)
+            # self.draw_board(gd)
+            # gd.draw_cell(self.__x, self.__y, "blue")
+
+        def end_round(self) -> None:
+            self.round+=1
+            self.__remove_out_borders_walls()
+
+        def is_over(self) -> bool:
+            in_bound=self.check_snake_head_in_bound()
+            if not in_bound:
+                return True
+            hit_himself=self.__snake.check_if_hit_itself()
+            if hit_himself:
+                return True
+        
+        def add_objects(self)->None:
+            self.__add_wall()
+        #endregion
+
+        #region help
+        def __in_bound(self, loc: tuple[int, int]) -> bool:
+            x, y = loc
+            if not (0 <= x < self.args.width):
+                return False
+            if not (0 <= y < self.args.height):
+                return False
+            return True
+        
+        def __check_if_empty(self,locs:list[tuple[int,int]]):
+            locs_set=set(locs)
+            in_snake=self.__check_in_snake(locs_set)
+            
+            if in_snake:
+                return False
+            in_walls=self.__check_in_walls(locs_set)
+            
+            if in_walls:
+                return False
+            
+            #TODO: add check if in apples
+            return True
+
+        def __check_in_snake(self, locs_set):
+            snake_pos=self.__snake.get_snake_positions()
+            is_common=utils.check_if_common_list(snake_pos,locs_set)
+            return is_common
+        
+        def __check_in_walls(self, locs_set):
+            for wall in self.walls:
+                wall_pos=wall.get_wall_locations()
+                is_common=utils.check_if_common_list(wall_pos,locs_set)
+                if is_common:
+                   return True
+            return False
+            
+        def _array_in_bound(self,ls:list[tuple[int,int]]):
+            for loc in ls:
+                if not self.__in_bound(loc):
+                    return False
+                return True
+        #endregion
+                
+        #region snake
+        def __move_snake(self):
+            self.__snake.move_snake()
+
+        
+        def check_snake_head_in_bound(self):
+            head=self.__snake.get_head()
+            return self.__in_bound(head)
+            
+        def __draw_snake(self, gd: GameDisplay) -> None:
+            for loc in self.__snake.get_snake_positions():
+                if self.__in_bound(loc):
+                    _x, _y = loc
+                    gd.draw_cell(_x,_y, utils.BLACK)
+                
+        def __snake_change_dir(self):
+                if self.__key_clicked is not None:
+                    self.__snake.change_dir(self.__key_clicked)
+        #endregion
+    

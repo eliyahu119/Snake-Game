@@ -18,6 +18,9 @@ def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
         key_clicked = gd.get_key_clicked()
         game.read_key(key_clicked)
         
+        #ADD OBjects
+        game.add_objects()
+        
         # UPDATE OBJECTS
         game.update_objects()
         # DRAW BOARD
