@@ -8,6 +8,7 @@ import utils
 
 
 class SnakeGame:
+        
 
         def __init__(self, args) -> None:
             self.args = args
@@ -20,6 +21,10 @@ class SnakeGame:
             self.__init_snake()
             self.__init_walls()
             self.__init_apples()
+        
+        # @property
+        # def score(self):
+        #     # return int(self.__snake)
 
 
         def __init_apples(self):
@@ -159,6 +164,9 @@ class SnakeGame:
            
             l = len(self.__snake.get_snake_positions())
             if l <= 1:
+                return True
+        
+            if self.round == self.args.rounds:
                 return True
             
             return False
