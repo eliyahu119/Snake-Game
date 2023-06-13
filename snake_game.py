@@ -371,8 +371,12 @@ class SnakeGame:
             initiate the snake in the starting position
             """
             args=self.args
+            if bool(args.debug):
+                self.__snake=None
+                return
             started_pos=args.width //2,args.height //2 
-            self.__snake = Snake(started_pos,args.debug)    
+            self.__snake = Snake(started_pos)   
+            
 
         def check_snake_head_in_walls(self):
             """
