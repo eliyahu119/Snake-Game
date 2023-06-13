@@ -16,7 +16,7 @@ class SnakeGame:
             """
             self.args = args
             self.__key_clicked = None
-            self.round = 1
+            self.round = 0
             self.score = 0
             self.grow = 0
             self.apples_eaten=0            
@@ -213,7 +213,7 @@ class SnakeGame:
             if if_one:
               return True 
            
-            if self.round + 1 < self.args.rounds:
+            if self.round >= self.args.rounds:
                 return True
             
             return False
