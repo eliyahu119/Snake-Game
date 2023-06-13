@@ -24,8 +24,6 @@ class SnakeGame:
             self.__init_snake()
             self.__init_walls()
             self.__init_apples()
-        
-
         def __init_apples(self):
             """
             initiate apples list
@@ -131,8 +129,8 @@ class SnakeGame:
             new_arr=[]
             for wall in self.walls:
                 pos=wall.get_wall_locations()
-                in_bound=self._array_in_bound(pos)
-                if in_bound:
+                out_border=self.__array_out_bound(pos)
+                if not out_border:
                     new_arr.append(wall)
             self.walls=new_arr
         
@@ -288,15 +286,16 @@ class SnakeGame:
                    return True
             return False
             
-        def _array_in_bound(self,ls:list[tuple[int,int]]):
+            
+        def __array_out_bound(self,ls:list[tuple[int,int]]):
             """
-            checks if all locations in a list are in the borders
+            checks if all locations in a list are out the borders
             returns True or False
             """
             for loc in ls:
-                if not self.__in_bound(loc):
+                if self.__in_bound(loc):
                     return False
-                return True
+            return True
 
         def __move_snake(self):
             """
