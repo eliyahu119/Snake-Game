@@ -3,19 +3,19 @@ from snake_types import Loc
 
 
 class Apple:
-    
+
     def __init__(self, apple_locs: list[Loc] = []) -> None:
         """
         creates new apple and updates the set
         """
         self.apples: set[tuple[int, int]] = set(apple_locs)
-    
+
     def get_apples_loc(self) -> set[Loc]:
         """
         returns a set of all the apple's locations
         """
         return set(self.apples)
-    
+
     def is_apple(self, apple: Loc) -> bool:
         """
         checks if a given location contains an apple. returns True or False accordingly
@@ -37,7 +37,7 @@ class Apple:
             return True
         except Exception:
             return False
-        
+
     def add_apple(self, apple: Loc) -> bool:
         """
         tries to add an apple
@@ -49,6 +49,3 @@ class Apple:
         else:
             self.apples.add(apple)
             return True
-    
-    
-    

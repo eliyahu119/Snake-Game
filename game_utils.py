@@ -6,12 +6,13 @@ from collections import namedtuple
 WIDTH = 40
 HEIGHT = 30
 
-random_array = [random.Random(),random.Random()]
+random_array = [random.Random(), random.Random()]
 
-Size=namedtuple('Size', ['width', 'height'])
-size=Size(WIDTH,HEIGHT)
+Size = namedtuple('Size', ['width', 'height'])
+size = Size(WIDTH, HEIGHT)
 
-verbose=False
+verbose = False
+
 
 def get_random_apple_data() -> Tuple[int, int]:
     """
@@ -23,8 +24,9 @@ def get_random_apple_data() -> Tuple[int, int]:
 
     if verbose:
         print(f'Apple(x={x},y={y})')
-    
+
     return x, y
+
 
 def get_random_wall_data() -> Tuple[int, int, str]:
     """
@@ -33,22 +35,24 @@ def get_random_wall_data() -> Tuple[int, int, str]:
     """
     x = random_array[1].randint(0, size.width - 1)
     y = random_array[1].randint(0, size.height - 1)
-    direction = random_array[1].choice(["Up","Down","Left","Right"])
+    direction = random_array[1].choice(["Up", "Down", "Left", "Right"])
 
     if verbose:
         print(f'Wall(x={x},y={y},direction={direction})')
-    
+
     return x, y, direction
 
-def set_size(width:int, height:int) -> None:
+
+def set_size(width: int, height: int) -> None:
     global size
-    size=Size(width, height)
+    size = Size(width, height)
 
-def set_verbose(flag:bool) -> None:
+
+def set_verbose(flag: bool) -> None:
     global verbose
-    verbose=flag
+    verbose = flag
 
-    
+
 def set_random_seed(val: Any) -> None:
     """
     Internal: not for external usage
