@@ -192,6 +192,7 @@ class SnakeGame:
         activate actions of the end of the round.
         updates the round's number
         """
+        self.__cut_snake_wall()
 
         self.round += 1
 
@@ -401,7 +402,7 @@ class SnakeGame:
                 return True
         return False
 
-    def cut_snake_wall(self):
+    def __cut_snake_wall(self):
         """
         cuts the snake according to where the wall hit it
         """

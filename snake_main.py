@@ -31,7 +31,7 @@ def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
         # DRAW BOARD
         game.draw_board(gd)
         gd.show_score(game.score)
-        game.cut_snake_wall()
+
         # WAIT FOR NEXT ROUND:
         game.end_round()
         gd.end_round()
