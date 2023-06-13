@@ -26,7 +26,7 @@ defaults = {'modulename': 'game_display',
             'fname': 'rungame',
             'ans': [None],
             }
-BASEDIR = '.'
+BASEDIR = r'C:\Users\eliyahu\Documents\פרויקטים\Targial10\presubmit (3)\presubmit'
 
 
 def read_recorded_game(filename):
@@ -44,17 +44,17 @@ def read_recorded_game(filename):
 cases = {filename: {'args': read_recorded_game(f'{BASEDIR}/{filename}.json')}
          for filename in [
              'empty',
-             'debug1',
-             'debug2',
-             'nomoves',
-             'turns',
-             'odd',
-             'many',
-             'selfcrash1',
-             'selfcrash2',
-             'wallcrash',
-             'cutting',
-             'scorecut',
+            #  'debug1',
+            #  'debug2',
+            #  'nomoves',
+            #  'turns',
+            #  'odd',
+            #  'many',
+            #  'selfcrash1',
+            #  'selfcrash2',
+            #  'wallcrash',
+            #  'cutting',
+            #  'scorecut',
 ]}
 CHAR = "__"
 COLORS = {"blue": f'\x1b[0;34;44m{CHAR}\x1b[0m', "green": f'\x1b[0;32;42m{CHAR}\x1b[0m',

@@ -213,7 +213,7 @@ class SnakeGame:
             if if_one:
               return True 
            
-            if self.round + 1 < self.args.rounds:
+            if self.round == self.args.rounds:
                 return True
             
             return False
