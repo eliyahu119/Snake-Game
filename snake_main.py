@@ -13,11 +13,10 @@ def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
     game.add_objects()
     # DRAW BOARD
     game.draw_board(gd)
+    game.end_round()
     gd.end_round()
     while not game.is_over():
-
-        gd.show_score(game.score)
-        
+       
         # CHECK KEY CLICKS
         key_clicked = gd.get_key_clicked()
         game.read_key(key_clicked)        
@@ -27,9 +26,12 @@ def main_loop(gd: GameDisplay, args: argparse.Namespace) -> None:
         game.check_collisions()
         #ADD OBjects
         game.add_objects()
-
+        
+      
         # DRAW BOARD
         game.draw_board(gd)
+        gd.show_score(game.score)
+        game.cut_snake_wall()
         # WAIT FOR NEXT ROUND:
         game.end_round()
         gd.end_round()
