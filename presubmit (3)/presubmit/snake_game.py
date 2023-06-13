@@ -173,12 +173,11 @@ class SnakeGame:
             """
             draws the snake, the walls and the apples
             """
+            self.__draw_apples(gd)
             self. __draw_snake(gd)
             self.__draw_walls(gd)
-            self.__draw_apples(gd)
 
         def check_collisions(self):
-            self.cut_snake_wall()
             self.__remove_out_borders_walls()
             self.__destroy_apple_in_walls()
             self.__eat_apple()
@@ -210,9 +209,10 @@ class SnakeGame:
             if_one=self.check_if_one()
             if if_one:
               return True 
-           
-            if self.round >= self.args.rounds:
-                return True
+            
+            if self.args.rounds >= 0:
+                if self.round > self.args.rounds:
+                    return True
             
             return False
         
