@@ -16,7 +16,7 @@ class SnakeGame:
             """
             self.args = args
             self.__key_clicked = None
-            self.round = 0
+            self.round = 1
             self.score = 0
             self.grow = 0
             self.apples_eaten=0            
@@ -72,7 +72,7 @@ class SnakeGame:
             add a wall to wall's list
             """
             wall_len=len(self.walls)
-            if wall_len > self.args.walls:
+            if wall_len >= self.args.walls:
                 return False
             wall=self.__get_valid_wall()
             if wall is None:
@@ -179,15 +179,18 @@ class SnakeGame:
             self.__draw_walls(gd)
             self.__draw_apples(gd)
 
+        def check_collisions(self):
+            self.cut_snake_wall()
+            self.__remove_out_borders_walls()
+            self.__destroy_apple_in_walls()
+            self.__eat_apple()
+       
         def end_round(self) -> None:
             """
             activate actions of the end of the round.
             updates the round's number
             """
-            self.cut_snake_wall()
-            self.__remove_out_borders_walls()
-            self.__destroy_apple_in_walls()
-            self.__eat_apple()
+ 
             
             self.round+=1
 
