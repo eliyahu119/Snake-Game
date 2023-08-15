@@ -12,7 +12,7 @@ Welcome to the classic Snake Game implemented in [programming language/framework
 - Increasing difficulty: As the snake grows longer, the game becomes progressively challenging.
 - Score tracking: Your score increases with each food item eaten.
 - Game Over conditions: The game ends if the snake hits the walls or collides with its own tail.
-- [Any additional features you've implemented]
+
 
 ## Installation
 
@@ -20,15 +20,14 @@ To run the Snake Game, you need to have Python installed on your system.
 
 ## Usage
 
-1. [How to run the game]
-2. Use the arrow keys to navigate the snake:
+1. Use the arrow keys to navigate the snake:
    - **Up Arrow:** Move the snake upwards.
    - **Down Arrow:** Move the snake downwards.
    - **Left Arrow:** Move the snake to the left.
    - **Right Arrow:** Move the snake to the right.
-3. Eat the food to grow longer and increase your score.
-4. Avoid hitting the walls and the snake's tail, as this will end the game.
-5. [Include any relevant screenshots or GIFs for clarity]
+2. Eat the food to grow longer and increase your score.
+3. Avoid hitting the walls and the snake's tail, as this will end the game.
+
 
 ## Contributing
 
