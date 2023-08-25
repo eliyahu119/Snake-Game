@@ -7,7 +7,7 @@ class Snake:
         """
         creates new snake by resetting
         """
-        self.reset_snake(started_pos, direction)
+        self.reset_snake(started_pos,direction)
 
     def add_length(self):
         """
@@ -24,9 +24,9 @@ class Snake:
             return
         if pos not in self.snake:
             return
-        index = self.snake.index(pos)
-        self.snake = self.snake[:index]
-
+        index=self.snake.index(pos)
+        self.snake=self.snake[:index]
+      
     def get_snake_positions(self) -> list[tuple[int, int]]:
         """return the entire list of tuples representing the snake current pos"""
         return list(self.snake)
@@ -62,7 +62,7 @@ class Snake:
     def get_head(self) -> tuple[int, int]:
         """returns the position of the head"""
         return self.snake[0]
-
+    
     def check_if_hit_itself(self) -> bool:
         """
         checks if the snake hit itself
@@ -73,17 +73,19 @@ class Snake:
         else:
             return False
 
-    def reset_snake(self, started_pos: tuple[int, int], direction=utils.UP):
+    def reset_snake(self, started_pos: tuple[int, int],direction=utils.UP):
         """
         reset the snake completely: location, length and direction
         """
-        snake = [started_pos]
-        opp_dir = utils.opposite_direction(direction)
-        pos = started_pos
+        snake=[started_pos]
+        opp_dir=utils.opposite_direction(direction)
+        pos=started_pos
         for _ in range(2):
-            pos = utils.update_location(pos, opp_dir)
+            pos=utils.update_location(pos,opp_dir)    
             snake.append(pos)
-        self.snake = snake
+        self.snake =snake
         self.direction = direction
 
     # def _reset_pos(started_pos):
+        
+        

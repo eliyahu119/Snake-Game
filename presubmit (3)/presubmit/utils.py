@@ -9,7 +9,6 @@ BLUE = "blue"
 BLACK = "black"
 GREEN = "green"
 
-
 def update_location(loc: Loc, direction: str) -> Loc:
     """
     Update the current location based on the specified direction.
@@ -49,8 +48,8 @@ def opposite_direction(direction):
     # raise ValueError("Invalid direction. Please provide one of the valid directions.")
 
 
-def check_if_common_list(list1, list2):
-    set_list1 = set(list1)
+def check_if_common_list(list1,list2):
+    set_list1=set(list1)
     for x in list2:
         if x in set_list1:
             return True
